@@ -2,7 +2,7 @@
 
 Compile with csc
 
-C:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe SharpFodhelperBypass.csc
+C:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe SharpFodhelperBypass.cs
 
 Base64 encode command to run
 
